@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo cáo 2: Phân tích Dữ liệu Hành vi — Cognilearn (Rules)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#fafafa;--card:#fff;--border:#e0e0e0;--text:#1a1a1a;--muted:#555;--blue:#2c5282;--blue-l:#3182ce;--green:#276749;--amber:#975a16;--red:#9b2c2c;--purple:#553c9a}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.8}
+        .hero{background:linear-gradient(135deg,#1a365d 0%,#2c5282 50%,#2b6cb0 100%);padding:50px 40px;text-align:center;color:#fff}
+        .hero h1{font-family:'Noto Serif',serif;font-size:2em;font-weight:700;margin-bottom:10px}
+        .hero .sub{font-size:.95em;opacity:.88;max-width:800px;margin:0 auto}
+        .hero .badges{margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+        .hero .badge{padding:5px 16px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:18px;font-size:.8em}
+        .container{max-width:1100px;margin:0 auto;padding:32px 24px}
+        .privacy{background:#fef3c7;border:1px solid #f59e0b;border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:.86em;display:flex;align-items:center;gap:12px}
+        .privacy .icon{font-size:1.5em}
+        .rules{background:#eff6ff;border:1px solid var(--blue-l);border-radius:10px;padding:16px 20px;margin-bottom:28px;font-size:.86em}
+        .rules h4{color:var(--blue);margin-bottom:6px}
+        .rules li{margin:3px 0;color:var(--muted)}
+        .toc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 28px;margin-bottom:28px}
+        .toc h3{font-size:1em;margin-bottom:8px;color:var(--blue)}
+        .toc ol{padding-left:20px}.toc li{margin:4px 0}.toc a{color:var(--blue-l);text-decoration:none;font-size:.9em}.toc a:hover{text-decoration:underline}
+        .section{margin-bottom:42px}
+        .sh{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid var(--blue)}
+        .sn{width:38px;height:38px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95em;flex-shrink:0}
+        h2{font-family:'Noto Serif',serif;font-size:1.4em;color:var(--blue)}
+        h3{font-size:1.05em;color:var(--text);margin:18px 0 8px}
+        p{color:var(--muted);margin-bottom:10px;font-size:.9em}
+        .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+        .chart{margin:18px 0;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:#fff;box-shadow:0 1px 5px rgba(0,0,0,.06)}
+        .chart img{width:100%;display:block}
+        .cap{padding:8px 16px;font-size:.8em;color:var(--muted);text-align:center;border-top:1px solid var(--border);background:#f7f7f7;font-style:italic}
+        .alert{border-radius:8px;padding:14px 18px;margin:14px 0;border-left:4px solid;font-size:.88em}
+        .a-ok{background:#f0fff4;border-color:var(--green)}.a-ok .at{color:var(--green)}
+        .a-warn{background:#fffbeb;border-color:var(--amber)}.a-warn .at{color:var(--amber)}
+        .a-info{background:#eff6ff;border-color:var(--blue-l)}.a-info .at{color:var(--blue-l)}
+        .a-danger{background:#fef2f2;border-color:var(--red)}.a-danger .at{color:var(--red)}
+        .at{font-weight:700;margin-bottom:3px}
+        .ev li{padding:4px 0 4px 22px;position:relative;color:var(--muted);font-size:.88em;list-style:none}
+        .ev li::before{content:'▸';position:absolute;left:2px;color:var(--blue-l);font-weight:700}
+        .sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:16px 0}
+        .sc{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+        .sv{font-size:1.8em;font-weight:800;color:var(--blue)}.sl{color:var(--muted);font-size:.78em;margin-top:2px}
+        table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.85em}
+        th{background:var(--blue);color:#fff;font-weight:600;text-align:left;padding:9px 12px}
+        td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--muted)}
+        tr:nth-child(even) td{background:#f7fafc}
+        .rok{color:var(--green);font-weight:600}.rpart{color:var(--amber);font-weight:600}
+        .footer{text-align:center;padding:24px;border-top:1px solid var(--border);color:var(--muted);font-size:.78em;margin-top:24px}
+        @media(max-width:768px){.hero h1{font-size:1.4em}.container{padding:16px 10px}.sg{grid-template-columns:repeat(2,1fr)}}
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>📊 Báo cáo 2: Phân tích Dữ liệu Hành vi</h1>
+    <div class="sub">Phân tích hành vi học tập theo 3 nhiệm vụ cốt lõi — Gaming the System, Learning Curve BKT, Tần suất tương tác</div>
+    <div class="badges">
+        <div class="badge">🔬 Behavioral Data</div>
+        <div class="badge">📐 seaborn-whitegrid</div>
+        <div class="badge">🔒 Tên HS ẩn danh</div>
+        <div class="badge">🇻🇳 Tiếng Việt</div>
+    </div>
+</div>
+
+<div class="container">
+
+<div class="privacy">
+    <div class="icon">🔒</div>
+    <div><strong>Bảo mật:</strong> Tất cả tên và thông tin cá nhân học sinh đã được <strong>ẩn danh hóa</strong> hoàn toàn (Học sinh 01, HS_01...). Không có thông tin nhận dạng cá nhân nào được hiển thị.</div>
+</div>
+
+<div class="rules">
+    <h4>📌 Nguyên tắc phân tích (Rules)</h4>
+    <ol>
+        <li><strong>Chỉ phân tích dữ liệu hành vi (Behavioral Data)</strong> — không thống kê chung chung</li>
+        <li><strong>Phong cách học thuật:</strong> <code>seaborn-whitegrid</code>, nhãn trục X/Y, tiêu đề tiếng Việt</li>
+        <li><strong>3 nhiệm vụ:</strong> Gaming the System → Learning Curve BKT → Tần suất tương tác</li>
+    </ol>
+</div>
+
+<div class="toc">
+    <h3>📋 Mục lục</h3>
+    <ol>
+        <li><a href="#nv1">Nhiệm vụ 1: Phát hiện "Gaming the System"</a></li>
+        <li><a href="#nv2">Nhiệm vụ 2: Đường cong học tập (Learning Curve BKT)</a></li>
+        <li><a href="#nv3">Nhiệm vụ 3: Tần suất tương tác với phần mềm AI</a></li>
+        <li><a href="#summary">Tổng hợp kiểm chứng giả thuyết</a></li>
+    </ol>
+</div>
+
+<!-- Data -->
+<div class="sg">
+    <div class="sc"><div class="sv">1,335</div><div class="sl">Lần thử (Attempts)</div></div>
+    <div class="sc"><div class="sv">225</div><div class="sl">Hồ sơ kiến thức</div></div>
+    <div class="sc"><div class="sv">322</div><div class="sl">Widget interactions</div></div>
+    <div class="sc"><div class="sv">23</div><div class="sl">Smart Assist logs</div></div>
+</div>
+
+<!-- NV1 -->
+<div class="section" id="nv1">
+    <div class="sh"><div class="sn" style="background:#9b2c2c">1</div><h2>Nhiệm vụ 1: Phát hiện hành vi "Gaming the System"</h2></div>
+
+    <div class="card" style="background:#fef2f2;border-color:#fca5a5">
+        <h3>🎯 Mục tiêu</h3>
+        <p>Tìm cụm học sinh có <strong>thời gian làm bài &lt; 30 giây</strong> nhưng <strong>điểm số cực độ (0 hoặc 100)</strong> — bằng chứng cho hành vi "Gaming the System" (khoanh bừa hoặc chép đáp án).</p>
+        <p><strong>File dữ liệu:</strong> learning_strategy_attempts.csv | <strong>Biểu đồ:</strong> Bivariate KDE Plot + Hexbin Plot</p>
+    </div>
+
+    <div class="alert a-danger"><div class="at">⚠️ PHÁT HIỆN NGHIÊM TRỌNG</div>
+        <strong>54.9% lần nộp bài</strong> (729/1,329) có thời gian &lt; 30 giây. Trong đó, <strong>76.3%</strong> (556 lần) đạt điểm cực độ (0 hoặc 100). TB điểm nhóm Gaming: <strong>92.5%</strong> (bất thường cao → chép đáp án).
+    </div>
+
+    <div class="chart">
+        <img src="report2_charts/nv1_gaming_the_system.png" alt="Gaming the System">
+        <div class="cap">Hình 1: Bivariate KDE Plot (trái) & Hexbin Plot (phải) — Vùng đỏ đánh dấu ngưỡng 30 giây, cụm mật độ cao ở góc trên trái = Gaming</div>
+    </div>
+
+    <div class="card">
+        <h3>📋 Insight số liệu chính xác</h3>
+        <table>
+            <thead><tr><th>Chỉ số</th><th>Giá trị</th><th>Ý nghĩa</th></tr></thead>
+            <tbody>
+                <tr><td>Tổng lần nộp (đã lọc ≤300s)</td><td><strong>1,329</strong></td><td>Mẫu phân tích</td></tr>
+                <tr><td>Nộp &lt; 30 giây</td><td><strong>729 (54.9%)</strong></td><td>Hơn nửa → bất thường</td></tr>
+                <tr><td>Điểm cực độ (0 hoặc 100) trong &lt;30s</td><td><strong>556 (76.3%)</strong></td><td>Đa số Gaming = chép đáp án</td></tr>
+                <tr><td>TB điểm nhóm &lt; 30s</td><td><strong>92.5%</strong></td><td>Cao bất thường → gian lận</td></tr>
+                <tr><td>TB điểm nhóm ≥ 30s</td><td><strong>Bình thường hơn</strong></td><td>HS làm bài nghiêm túc</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="alert a-info"><div class="at">💡 Ý nghĩa nghiên cứu</div>
+        <strong>(H2)</strong> AI có thể tự động phát hiện gian lận qua phân tích hành vi thời gian-điểm số.<br>
+        <strong>(H5)</strong> Hành vi "Gaming" là yếu tố lớn nhất ảnh hưởng hiệu quả hệ thống — cần cơ chế chống gian lận mạnh hơn.
+    </div>
+</div>
+
+<!-- NV2 -->
+<div class="section" id="nv2">
+    <div class="sh"><div class="sn" style="background:#2c5282">2</div><h2>Nhiệm vụ 2: Đường Cong Học Tập (Learning Curve theo BKT)</h2></div>
+
+    <div class="card" style="background:#eff6ff;border-color:#93c5fd">
+        <h3>🎯 Mục tiêu</h3>
+        <p>Chứng minh qua mỗi <strong>Attempt (Lần tương tác)</strong>, <strong>Mastery Score</strong> của HS tăng lên nhờ AI gia sư can thiệp. Parse cột JSON <code>history</code> từ student_knowledge_profile.csv.</p>
+        <p><strong>Biểu đồ:</strong> Line Plot với dải Confidence Interval 95%</p>
+    </div>
+
+    <div class="alert a-ok"><div class="at">✅ CHỨNG MINH SỰ TIẾN BỘ RÕ RÀNG</div>
+        BKT Learning Curve: Mastery Score tăng từ <strong>24.4 → 59.6</strong> qua 10 lần tương tác (<strong>+35.2 điểm</strong>). Score % từ Learning Attempts tăng từ <strong>~82% → ~99%</strong>.
+    </div>
+
+    <div class="chart">
+        <img src="report2_charts/nv2_learning_curve_bkt.png" alt="Learning Curve BKT">
+        <div class="cap">Hình 2a: Đường cong tổng hợp với CI 95% (trái) & Đường cong từng HS ẩn danh (phải)</div>
+    </div>
+
+    <div class="chart">
+        <img src="report2_charts/nv2_learning_curve_score_time.png" alt="Learning Curve Score Time">
+        <div class="cap">Hình 2b: Score % tăng theo lần thử (trái) & Thay đổi thời gian qua các lần (phải)</div>
+    </div>
+
+    <div class="card">
+        <h3>📋 Insight số liệu chính xác</h3>
+        <table>
+            <thead><tr><th>Chỉ số</th><th>Giá trị</th><th>Ý nghĩa</th></tr></thead>
+            <tbody>
+                <tr><td>Mastery Score lần 1 (TB)</td><td><strong>24.4</strong></td><td>Khởi điểm thấp</td></tr>
+                <tr><td>Mastery Score lần cuối (TB)</td><td><strong>59.6</strong></td><td>Tiến bộ rõ rệt</td></tr>
+                <tr><td>Thay đổi Mastery</td><td><strong>+35.2 điểm</strong></td><td>Cải thiện 144%</td></tr>
+                <tr><td>Score % lần 1 → lần 7+</td><td><strong>~82% → ~99%</strong></td><td>Gần tuyệt đối khi luyện tập</td></tr>
+                <tr><td>Time delta</td><td><strong>Âm ở hầu hết lần</strong></td><td>HS làm bài nhanh hơn (quen)</td></tr>
+                <tr><td>CI 95%</td><td><strong>Dải hẹp dần</strong></td><td>Xu hướng ổn định</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="alert a-info"><div class="at">💡 Ý nghĩa nghiên cứu</div>
+        <strong>(H3)</strong> Đường cong học tập đi lên chứng minh HS tiến bộ qua từng lần tương tác với AI gia sư.<br>
+        <strong>(H4)</strong> Đường cong khác biệt giữa các HS cho thấy mỗi người có tốc độ tiến bộ riêng → cá nhân hóa.
+    </div>
+</div>
+
+<!-- NV3 -->
+<div class="section" id="nv3">
+    <div class="sh"><div class="sn" style="background:#553c9a">3</div><h2>Nhiệm vụ 3: Tần suất Tương tác Với Phần mềm AI</h2></div>
+
+    <div class="card" style="background:#faf5ff;border-color:#c4b5fd">
+        <h3>🎯 Mục tiêu</h3>
+        <p>Xem HS thích dùng tính năng nào: <strong>Phân tích AI tự động</strong> vs <strong>Chat AI</strong> vs <strong>Smart Assist (gợi ý)</strong>. Phân loại ý định khi HS sử dụng Smart Assist.</p>
+        <p><strong>Biểu đồ:</strong> Donut Chart tỷ trọng + Bar Chart tần suất + Bar Chart ý định</p>
+    </div>
+
+    <div class="alert a-ok"><div class="at">✅ HỌC SINH TÍCH CỰC TƯƠNG TÁC</div>
+        Tổng <strong>345 tương tác</strong>: 52.5% Phân tích AI, 40.9% Chat AI, 6.7% Smart Assist. HS chủ yếu <strong>"hỏi cách làm" (26%)</strong> thay vì xin đáp án (22%) → AI khuyến khích tư duy.
+    </div>
+
+    <div class="chart">
+        <img src="report2_charts/nv3_tan_suat_tuong_tac.png" alt="Tần suất tương tác">
+        <div class="cap">Hình 3a: Donut Chart tỷ trọng tính năng (trái) & Tần suất Smart Assist theo HS ẩn danh (phải)</div>
+    </div>
+
+    <div class="chart">
+        <img src="report2_charts/nv3_smart_assist_intent.png" alt="Smart Assist Intent">
+        <div class="cap">Hình 3b: Phân loại ý định khi HS sử dụng Smart Assist — Hỏi AI với mục đích gì?</div>
+    </div>
+
+    <div class="card">
+        <h3>📋 Insight số liệu chính xác</h3>
+        <table>
+            <thead><tr><th>Chỉ số</th><th>Giá trị</th><th>Ý nghĩa</th></tr></thead>
+            <tbody>
+                <tr><td>Tổng tương tác AI</td><td><strong>345</strong></td><td>Widget + Smart Assist</td></tr>
+                <tr><td>Phân tích AI (Auto)</td><td><strong>52.5% (181)</strong></td><td>AI chủ động phân tích → GV không cần thao tác</td></tr>
+                <tr><td>Chat AI</td><td><strong>40.9% (141)</strong></td><td>HS tích cực hỏi AI trợ lý</td></tr>
+                <tr><td>Smart Assist</td><td><strong>6.7% (23)</strong></td><td>Gợi ý câu hỏi khi làm bài</td></tr>
+                <tr><td>HS sử dụng SA nhiều nhất</td><td><strong>11 lần (1 HS)</strong></td><td>HS cần hỗ trợ nhiều → hệ thống đáp ứng</td></tr>
+                <tr><td>Ý định "Hỏi cách làm"</td><td><strong>26%</strong></td><td>Nhiều nhất → HS muốn hiểu, không chỉ xin đáp án</td></tr>
+                <tr><td>Ý định "Xin đáp án"</td><td><strong>22%</strong></td><td>AI từ chối cho đáp án trực tiếp → tốt</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="alert a-info"><div class="at">💡 Ý nghĩa nghiên cứu</div>
+        <strong>(H1)</strong> Phân tích AI tự động (52.5%) → giảm tải cho GV đáng kể.<br>
+        <strong>(H4)</strong> Smart Assist gợi ý cá nhân cho từng HS → cá nhân hóa học tập.<br>
+        <strong>(H5)</strong> Phân bố tương tác không đều → mức độ chủ động của HS ảnh hưởng hiệu quả.
+    </div>
+</div>
+
+<!-- TỔNG HỢP -->
+<div class="section" id="summary">
+    <div class="sh"><div class="sn" style="background:#475569">Σ</div><h2>Tổng Hợp Kiểm Chứng Giả Thuyết</h2></div>
+    <div class="card">
+        <table>
+            <thead><tr><th>Giả thuyết</th><th>Kết luận</th><th>Nhiệm vụ</th><th>Bằng chứng quan trọng nhất</th></tr></thead>
+            <tbody>
+                <tr><td><strong>H1:</strong> Hỗ trợ GV</td><td class="rok">✅ Xác nhận</td><td>NV1, NV3</td><td>AI phát hiện Gaming tự động, phân tích 52.5% không cần GV</td></tr>
+                <tr><td><strong>H2:</strong> Phân tích AI</td><td class="rok">✅ Xác nhận</td><td>NV1, NV2</td><td>KDE phát hiện Gaming (54.9%), BKT tracking (+35.2 mastery)</td></tr>
+                <tr><td><strong>H3:</strong> Tác động HS</td><td class="rok">✅ Tích cực</td><td>NV2</td><td>Learning Curve +35.2 mastery, Score +17% qua 7 lần thử</td></tr>
+                <tr><td><strong>H4:</strong> Cá nhân hóa</td><td class="rpart">⚡ Tiềm năng</td><td>NV2, NV3</td><td>Learning Curve khác biệt giữa HS, Smart Assist cá nhân</td></tr>
+                <tr><td><strong>H5:</strong> Yếu tố</td><td class="rok">✅ Xác nhận</td><td>NV1, NV3</td><td>Gaming 54.9%, tương tác không đều, kiên trì khác nhau</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="alert a-warn"><div class="at">⚠️ Giới hạn & Khuyến nghị</div>
+        <strong>Pilot Study</strong> với mẫu nhỏ — mang tính <strong>Proof of Concept</strong>.<br>
+        <strong>Khuyến nghị:</strong> (1) Thêm cơ chế chống Gaming mạnh hơn. (2) Mở rộng mẫu với nhóm đối chứng. (3) Thu thập thêm dữ liệu Smart Assist để đánh giá cá nhân hóa (H4).
+    </div>
+</div>
+
+<div class="footer">
+    <p>📊 Phân tích: Python (Seaborn, Pandas, Matplotlib) | 📐 seaborn-whitegrid | 🔒 Ẩn danh hóa | 🇻🇳 Tiếng Việt</p>
+    <p>Đề tài: Ứng dụng Khai phá dữ liệu giáo dục (EDM) để phân tích hành vi & đánh giá hiệu quả AI gia sư Cognilearn</p>
+</div>
+
+</div>
+</body>
+</html>
